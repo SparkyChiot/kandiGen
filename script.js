@@ -41,7 +41,7 @@ const quirks = [
   },
   {
     name: "Glowsticks",
-    tags: "scemo"
+    tags: ["scemo"]
   },
   {
     name: "Mini bottles",
@@ -568,7 +568,7 @@ const palettes = [
   },
   ];
   
-// return array of selected themes
+// return array of selected themes (works)
 function getThemeSelection() {
   const randomMode = document.getElementById("randomMode").checked;
   
@@ -580,30 +580,55 @@ function getThemeSelection() {
   return Array.from(checkboxes).map(cb=>cb.value);
 }
 
+// return array of selected difficulties (works)
 function getDifficultySelection() {
   const checkboxes = document.querySelectorAll('input[name="difficulty"]:checked');
   return Array.from(checkboxes).map(cb => cb.value);
 }
 
+// return random quirk from selected themes (works)
 function getQuirkFromSelection(selection) {
-  if (selection == ["all"]){
-    return quirks[Math.floor(Math.random() * quirks.length)];
+  if (document.getElementById("quirk").checked === true) {
+    if (selection.length === 1 && selection[0] === "all") {
+      return quirks[Math.floor(Math.random() * quirks.length)];
+    }
+    
+    const matchingQuirks = quirks.filter(quirk => quirk.tags.some(tag => selection.includes(tag))).map(quirk => quirk.name);
+    let quirk = matchingQuirks[Math.floor(Math.random() * matchingQuirks.length)];
+    return quirk;
+  } else {
+    return "No design quirk included.";
   }
-  
-  let quirk = quirks.filter(quirk.tags.some(tag => selection.includes(tag))).map(quirk => quirk.name);
-  return quirk;
 }
 
+// return random cuff from selected difficulties (works)
 function getCuffFromSelection(selection) {
-  let cuff = cuffs.filter(cuff.difficulty.some(difficulty => selection.includes(difficulty))).map(cuff => cuff.name);
+  const matchingCuffs = cuffs.filter(cuff => selection.includes(cuff.difficulty)).map(cuff => cuff.name);
+  let cuff = matchingCuffs[Math.floor(Math.random() * matchingCuffs.length)];
   return cuff;
 }
 
+// return random theme from selected themes (works)
 function getThemeFromSelection(selection) {
-  if (selection == ["all"]){
+  if (selection.length === 1 && selection[0] === "all") {
     return themes[Math.floor(Math.random() * themes.length)];
   }
-  
-  let theme = themes.filter(theme.tags.some(tag => selection.includes(tag))).map(theme => theme.name);
+
+  const matchingThemes = themes.filter(theme => theme.tags.some(tag => selection.includes(tag))).map(theme => theme.name);
+  let theme = matchingThemes[Math.floor(Math.random() * matchingThemes.length)];
   return theme;
+}
+
+function combineResults(){
+  const themeSelection = getThemeSelection();
+  const difficultySelection = getDifficultySelection();
+  const quirk = getQuirkFromSelection(themeSelection);
+  const cuff = getCuffFromSelection(difficultySelection);
+  const theme = getThemeFromSelection(themeSelection);
+  return { quirk, cuff, theme };
+}
+
+function showResults(quirk, cuff, theme) {
+  const displayDiv = document.getElementById("display");
+  displayDiv.innerHTML = "<p>Cuff type: " + cuff + "</p><p>Theme: " + theme + "</p><p>Quirk: " + quirk + "</p>";
 }
