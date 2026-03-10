@@ -590,11 +590,14 @@ function getDifficultySelection() {
 function getQuirkFromSelection(selection) {
   if (document.getElementById("quirk").checked === true) {
     if (selection.length === 1 && selection[0] === "all") {
-      return quirks[Math.floor(Math.random() * quirks.length)];
+      let quirk = quirks[Math.floor(Math.random() * quirks.length)];
+      quirk = "" + quirk.name
+      return quirk;
     }
     
-    const matchingQuirks = quirks.filter(quirk => quirk.tags.some(tag => selection.includes(tag))).map(quirk => quirk.name);
+    let matchingQuirks = quirks.filter(quirk => quirk.tags.some(tag => selection.includes(tag))).map(quirk => quirk.name);
     let quirk = matchingQuirks[Math.floor(Math.random() * matchingQuirks.length)];
+    quirk = "" + quirk.name
     return quirk;
   } else {
     return "No design quirk included.";
@@ -611,24 +614,36 @@ function getCuffFromSelection(selection) {
 // return random theme from selected themes (works)
 function getThemeFromSelection(selection) {
   if (selection.length === 1 && selection[0] === "all") {
-    return themes[Math.floor(Math.random() * themes.length)];
+    let theme =themes[Math.floor(Math.random() * themes.length)];
+    theme = "" + theme.name
+    return theme;
   }
 
   const matchingThemes = themes.filter(theme => theme.tags.some(tag => selection.includes(tag))).map(theme => theme.name);
   let theme = matchingThemes[Math.floor(Math.random() * matchingThemes.length)];
+  theme = "" + theme.name
   return theme;
 }
 
-function combineResults(){
+function quirkResults(){
   const themeSelection = getThemeSelection();
-  const difficultySelection = getDifficultySelection();
   const quirk = getQuirkFromSelection(themeSelection);
+  return quirk
+}
+
+function cuffResults(){
+  const difficultySelection = getDifficultySelection();
   const cuff = getCuffFromSelection(difficultySelection);
+  return cuff
+}
+
+function themeResults(){
+  const themeSelection = getThemeSelection();
   const theme = getThemeFromSelection(themeSelection);
-  return { quirk, cuff, theme };
+  return theme
 }
 
 function showResults(quirk, cuff, theme) {
   const displayDiv = document.getElementById("display");
-  displayDiv.innerHTML = "<p>Cuff type: " + cuff + "</p><p>Theme: " + theme + "</p><p>Quirk: " + quirk + "</p>";
+  displayDiv.innerHTML = "<p>Cuff type: " + cuff + " cuff" + "</p><p>Theme: " + theme + "</p><p>Quirk: " + quirk + "</p>";
 }
