@@ -594,10 +594,10 @@ function getQuirkFromSelection(selection) {
       quirk = "" + quirk.name
       return quirk;
     }
-    
+    console.log("line 597")
     let matchingQuirks = quirks.filter(quirk => quirk.tags.some(tag => selection.includes(tag))).map(quirk => quirk.name);
+    // console.log(matchingQuirks)
     let quirk = matchingQuirks[Math.floor(Math.random() * matchingQuirks.length)];
-    quirk = "" + quirk.name
     return quirk;
   } else {
     return "No design quirk included.";
@@ -621,7 +621,6 @@ function getThemeFromSelection(selection) {
 
   const matchingThemes = themes.filter(theme => theme.tags.some(tag => selection.includes(tag))).map(theme => theme.name);
   let theme = matchingThemes[Math.floor(Math.random() * matchingThemes.length)];
-  theme = "" + theme.name
   return theme;
 }
 
