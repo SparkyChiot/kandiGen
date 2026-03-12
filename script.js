@@ -594,9 +594,7 @@ function getQuirkFromSelection(selection) {
       quirk = "" + quirk.name
       return quirk;
     }
-    console.log("line 597")
     let matchingQuirks = quirks.filter(quirk => quirk.tags.some(tag => selection.includes(tag))).map(quirk => quirk.name);
-    // console.log(matchingQuirks)
     let quirk = matchingQuirks[Math.floor(Math.random() * matchingQuirks.length)];
     return quirk;
   } else {
