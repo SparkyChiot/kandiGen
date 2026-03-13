@@ -1,6 +1,6 @@
 @font-face {
   font-family: comicSans;
-  src: url("assets/Ldfcomicsans.ttf") format("truetype");
+  src: url("Ldfcomicsans.ttf") format("truetype");
 }
 /* CSS */
 .generateButton {
